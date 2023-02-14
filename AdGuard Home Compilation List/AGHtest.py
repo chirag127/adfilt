@@ -19,11 +19,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_agh(line) -> bool:
-    for token in UNSUPPORTED_AGH:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_AGH)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_agh(lines) -> str:
@@ -944,7 +940,7 @@ def prepare_agh(lines) -> str:
            line
         )
 
-        if is_supported_agh(line) and not line == '':
+        if is_supported_agh(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -952,11 +948,7 @@ def prepare_agh(lines) -> str:
 # ——— IP version ———
 
 def is_supported_ip(line) -> bool:
-    for token in UNSUPPORTED_IP:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_IP)
 
     # function that prepares the filter list for AdGuard Home
 def prepare_ip(lines) -> str:
@@ -1341,7 +1333,7 @@ def prepare_ip(lines) -> str:
            line
         )
 
-        if is_supported_ip(line) and not line == '':
+        if is_supported_ip(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -1350,7 +1342,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     agh_filter = prepare_agh(lines)
     ip_filter = prepare_ip(lines)
@@ -1387,11 +1379,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_agh(line) -> bool:
-    for token in UNSUPPORTED_AGH:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_AGH)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_agh(lines) -> str:
@@ -1890,7 +1878,7 @@ def prepare_agh(lines) -> str:
            line
         )
 
-        if is_supported_agh(line) and not line == '':
+        if is_supported_agh(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -1899,7 +1887,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     agh_filter = prepare_agh(lines)
 

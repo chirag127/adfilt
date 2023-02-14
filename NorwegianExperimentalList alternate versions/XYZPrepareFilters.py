@@ -191,11 +191,7 @@ def prepare_ag(lines) -> str:
 # ——— Adblock Plus version ———
 
 def is_supported_abp(line) -> bool:
-    for token in UNSUPPORTED_ABP:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_ABP)
 
 # function that prepares the filter list for ABP
 def prepare_abp(lines) -> str:
@@ -843,11 +839,7 @@ def prepare_abp(lines) -> str:
 
 # Attempts to achieve Internet Explorer TPL support
 def is_supported_tpl(line) -> bool:
-    for token in UNSUPPORTED_TPL:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_TPL)
 
 # function that prepares the filter list for ABP
 def prepare_tpl(lines) -> str:
@@ -1337,7 +1329,7 @@ def prepare_tpl(lines) -> str:
            line
         )
 
-        if is_supported_tpl(line) and not line == '':
+        if is_supported_tpl(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -1345,11 +1337,7 @@ def prepare_tpl(lines) -> str:
 # ————— Privoxy version —————
 
 def is_supported_privoxy(line) -> bool:
-    for token in UNSUPPORTED_PRIVOXY:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_PRIVOXY)
 
 def prepare_privoxy(lines) -> str:
     text = ''
@@ -1603,8 +1591,8 @@ def prepare_privoxy(lines) -> str:
            line
         )
 
-        if is_supported_privoxy(line) and not line == '':
-          text += line + '\r\n'
+        if is_supported_privoxy(line) and line != '':
+            text += line + '\r\n'
 
     return text
 
@@ -1748,11 +1736,7 @@ def prepare_privacy(lines) -> str:
 # ——— uMatrix version ———
 
 def is_supported_umatrix(line) -> bool:
-    for token in UNSUPPORTED_UMATRIX:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_UMATRIX)
 
 def prepare_umatrix(lines) -> str:
     text = ''
@@ -2007,7 +1991,7 @@ def prepare_umatrix(lines) -> str:
            line
         )
 
-        if is_supported_umatrix(line) and not line == '':
+        if is_supported_umatrix(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -2131,7 +2115,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     ag_filter = prepare_ag(lines)
     abp_filter = prepare_abp(lines)
@@ -2192,11 +2176,7 @@ def download_filters() -> str:
 # ——— Adblock Plus version ———
 
 def is_supported_abp(line) -> bool:
-    for token in UNSUPPORTED_ABP:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_ABP)
 
 # function that prepares the filter list for ABP
 def prepare_abp(lines) -> str:
@@ -2948,7 +2928,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     abp_filter = prepare_abp(lines)
 
@@ -2999,11 +2979,7 @@ def download_filters() -> str:
 # ————— .\hosts version —————
 
 def is_supported_hosts(line) -> bool:
-    for token in UNSUPPORTED_HOSTS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_HOSTS)
 
 def prepare_hosts(lines) -> str:
     text = ''
@@ -3085,11 +3061,7 @@ def prepare_hosts(lines) -> str:
 # ————— Little Snitch version —————
 
 def is_supported_ls(line) -> bool:
-    for token in UNSUPPORTED_LS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_LS)
 
 def prepare_ls(lines) -> str:
     text = ''
@@ -3183,11 +3155,7 @@ def prepare_ls(lines) -> str:
 # ————— dnsmasq version —————
 
 def is_supported_dnsmasq(line) -> bool:
-    for token in UNSUPPORTED_DNSMASQ:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DNSMASQ)
 
 def prepare_dnsmasq(lines) -> str:
     text = ''
@@ -3237,7 +3205,7 @@ def prepare_dnsmasq(lines) -> str:
            line
         )
 
-        if is_supported_dnsmasq(line) and not line == '':
+        if is_supported_dnsmasq(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -4084,9 +4052,9 @@ def prepare_domainsallowlist(lines) -> str:
            line
         )
 
-        if not line == '':    
+        if line != '':    
             text += line + '\r\n'
-        
+
     return text
 
 
@@ -4094,7 +4062,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     hosts_filter = prepare_hosts(lines)
     ls_filter = prepare_ls(lines)
@@ -4354,11 +4322,7 @@ def prepare_ag(lines) -> str:
     return text
 
 def is_supported_abp(line) -> bool:
-    for token in UNSUPPORTED_ABP:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_ABP)
 
 # function that prepares the filter list for ABP
 def prepare_abp(lines) -> str:
@@ -4609,11 +4573,7 @@ def prepare_abp(lines) -> str:
 
 # Attempts to achieve Internet Explorer TPL support
 def is_supported_tpl(line) -> bool:
-    for token in UNSUPPORTED_TPL:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_TPL)
 
 # function that prepares the filter list for ABP
 def prepare_tpl(lines) -> str:
@@ -4980,11 +4940,7 @@ def prepare_tpl(lines) -> str:
 
 # Attempts to achieve Internet Explorer TPL support
 def is_supported_privoxy(line) -> bool:
-    for token in UNSUPPORTED_PRIVOXY:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_PRIVOXY)
 
 def prepare_privoxy(lines) -> str:
     text = ''
@@ -5110,11 +5066,7 @@ def prepare_privoxy(lines) -> str:
 
 # Attempts to achieve Internet Explorer TPL support
 def is_supported_hosts(line) -> bool:
-    for token in UNSUPPORTED_HOSTS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_HOSTS)
 
 def prepare_hosts(lines) -> str:
     text = ''
@@ -5304,11 +5256,7 @@ def prepare_hosts(lines) -> str:
 # ————— Domains list version —————
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_HOSTS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_HOSTS)
 
 def prepare_domains(lines) -> str:
     text = ''
@@ -5454,11 +5402,7 @@ def prepare_domains(lines) -> str:
     return text
 
 def is_supported_agh(line) -> bool:
-    for token in UNSUPPORTED_AGH:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_AGH)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_agh(lines) -> str:
@@ -5755,7 +5699,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     ag_filter = prepare_ag(lines)
     abp_filter = prepare_abp(lines)
@@ -5814,11 +5758,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -5861,7 +5801,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -5870,7 +5810,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -5901,11 +5841,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -5948,7 +5884,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -5957,7 +5893,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -5989,11 +5925,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -6072,7 +6004,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -6159,7 +6091,7 @@ def prepare_agh(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -6168,7 +6100,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
     agh_filter = prepare_agh(lines)
@@ -6203,11 +6135,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -6250,7 +6178,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -6259,7 +6187,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6290,11 +6218,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -6337,7 +6261,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -6346,7 +6270,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6377,11 +6301,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_domains(line) -> bool:
-    for token in UNSUPPORTED_DOMAINS:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_DOMAINS)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_domains(lines) -> str:
@@ -6424,7 +6344,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if is_supported_domains(line) and not line == '':
+        if is_supported_domains(line) and line != '':
             text += line + '\r\n'
 
     return text
@@ -6433,7 +6353,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6554,7 +6474,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if not line == '':
+        if line != '':
             text += line + '\r\n'
 
     return text
@@ -6563,7 +6483,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6684,7 +6604,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if not line == '':
+        if line != '':
             text += line + '\r\n'
 
     return text
@@ -6693,7 +6613,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6748,7 +6668,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if not line == '':
+        if line != '':
             text += line + '\r\n'
 
     return text
@@ -6757,7 +6677,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
@@ -6817,7 +6737,7 @@ def prepare_domains(lines) -> str:
            line
         )
 
-        if not line == '':
+        if line != '':
             text += line + '\r\n'
 
     return text
@@ -6826,7 +6746,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     domains_filter = prepare_domains(lines)
 
