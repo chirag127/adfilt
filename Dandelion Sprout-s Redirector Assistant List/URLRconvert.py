@@ -17,11 +17,7 @@ def download_filters() -> str:
     return text
 
 def is_supported_urlr(line) -> bool:
-    for token in UNSUPPORTED_URLR:
-        if token in line:
-            return False
-
-    return True
+    return all(token not in line for token in UNSUPPORTED_URLR)
 
 # function that prepares the filter list for AdGuard Home
 def prepare_urlr(lines) -> str:
@@ -135,7 +131,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     urlr_filter = prepare_urlr(lines)
 

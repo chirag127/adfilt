@@ -230,69 +230,68 @@ def main() -> int:
     if haschanged() == False:
         print("No change in rules. Exiting...")
         sys.exit()
-    filterlist = open("clear_urls_uboified.txt", "w")
-    filterlist.write(HEAD.format(date=date.today().strftime("%d/%m/%Y")))
+    with open("clear_urls_uboified.txt", "w") as filterlist:
+        filterlist.write(HEAD.format(date=date.today().strftime("%d/%m/%Y")))
 
-    # TODO: referralMarketing
-    providers = {
-        provider["urlPattern"]: provider["rules"]
-        for provider in data_min_json["providers"].values()
-        if provider["rules"]
-    }
+        # TODO: referralMarketing
+        providers = {
+            provider["urlPattern"]: provider["rules"]
+            for provider in data_min_json["providers"].values()
+            if provider["rules"]
+        }
 
-    # TODO:
-    # - URL encoded
-    # $removeparam=%24deep_link,domain=reddit.com
-    # - Better is_regex
-    # $removeparam=/^p\[\]=/,domain=flipkart.com
-    for url_pattern, rules in providers.items():
-        url_pattern = normalize_url_pattern(url_pattern)
-        rules = [
-            rule.replace("(?:%3F)?", "", 1).replace("(?:", "(").replace(r"\$", r"\x24")
-            for rule in rules
+        # TODO:
+        # - URL encoded
+        # $removeparam=%24deep_link,domain=reddit.com
+        # - Better is_regex
+        # $removeparam=/^p\[\]=/,domain=flipkart.com
+        for url_pattern, rules in providers.items():
+            url_pattern = normalize_url_pattern(url_pattern)
+            rules = [
+                rule.replace("(?:%3F)?", "", 1).replace("(?:", "(").replace(r"\$", r"\x24")
+                for rule in rules
+            ]
+            if url_pattern == ".*":
+                write_rules(
+                    url_pattern,
+                    rules,
+                    "$removeparam=/^{0}=/",
+                    "$removeparam={0}",
+                    filterlist,
+                )
+            elif "/" in url_pattern:
+                write_rules(
+                    url_pattern,
+                    rules,
+                    "||{1}$removeparam=/^{0}=/",
+                    "||{1}$removeparam={0}",
+                    filterlist,
+                )
+            else:
+                write_rules(
+                    url_pattern,
+                    rules,
+                    "||{1}^$removeparam=/^{0}=/",
+                    "||{1}^$removeparam={0}",
+                    filterlist,
+                )
+
+        exceptions = [
+            exception
+            for provider in data_min_json["providers"].values()
+            for exception in provider["exceptions"]
         ]
-        if url_pattern == ".*":
-            write_rules(
-                url_pattern,
-                rules,
-                "$removeparam=/^{0}=/",
-                "$removeparam={0}",
-                filterlist,
-            )
-        elif "/" in url_pattern:
-            write_rules(
-                url_pattern,
-                rules,
-                "||{1}$removeparam=/^{0}=/",
-                "||{1}$removeparam={0}",
-                filterlist,
-            )
-        else:
-            write_rules(
-                url_pattern,
-                rules,
-                "||{1}^$removeparam=/^{0}=/",
-                "||{1}^$removeparam={0}",
-                filterlist,
-            )
-
-    exceptions = [
-        exception
-        for provider in data_min_json["providers"].values()
-        for exception in provider["exceptions"]
-    ]
-    for exception in exceptions:
-        kind, exception = normalize_exception(exception.replace("\\\\", "\\"))
-        if kind == "regex":
-            filterlist.write("@@/{0}/$removeparam".format(exception) + "\n")
-        elif kind == "path":
-            filterlist.write("@@{0}$removeparam".format(exception) + "\n")
-        elif kind == "domain":
-            filterlist.write("@@||{0}^$removeparam".format(exception) + "\n")
-        else:
-            raise ValueError
-    filterlist.write(ALLOWLIST)
-    filterlist.close()
+        for exception in exceptions:
+            kind, exception = normalize_exception(exception.replace("\\\\", "\\"))
+            if kind == "regex":
+                filterlist.write("@@/{0}/$removeparam".format(exception) + "\n")
+            elif kind == "path":
+                filterlist.write("@@{0}$removeparam".format(exception) + "\n")
+            elif kind == "domain":
+                filterlist.write("@@||{0}^$removeparam".format(exception) + "\n")
+            else:
+                raise ValueError
+        filterlist.write(ALLOWLIST)
     return 0
 
 

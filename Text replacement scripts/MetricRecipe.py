@@ -657,7 +657,7 @@ if __name__ == "__main__":
     print('Starting the script')
     text = download_filters()
     lines = text.splitlines(False)
-    print('Total number of rules: ' + str(len(lines)))
+    print(f'Total number of rules: {len(lines)}')
 
     metric_filter = prepare_metric(lines)
 
